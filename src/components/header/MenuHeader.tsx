@@ -200,7 +200,7 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({ data, textColors }) => {
       {/* menu mobil */}
       <div
         className={`${openMenu ? 'block' : 'hidden'} ${animateMenu} fixed top-0 left-0 w-full h-full min-h-screen z-50 overflow-y-auto py-10`}
-        style={{ backgroundColor: data.colors.secondaryColor }}
+        style={{ backgroundColor: data.colors.tertiaryColor }}
       >
         <picture className="flex justify-center items-center">
           <img
