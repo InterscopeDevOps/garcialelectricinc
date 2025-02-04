@@ -1,0 +1,150 @@
+---
+import MenuModalForm from "./MenuModalForm";
+import ButtonContent2 from "../button/ButtonContent_2";
+import type { ApiData } from "../../interfaces/dbData";
+import { MenuHeader } from "./MenuHeader";
+
+let UrlApi = import.meta.env.API_URL;
+let KetApi = import.meta.env.API_KEY;
+// Realiza la llamada a la API
+const response = await fetch(`${UrlApi}/${KetApi}`);
+const data: ApiData = await response.json();
+
+const onePages = data.widgets.onePages;
+
+let open = false;
+---
+
+<header class={`bg-[#1e1e1e] relative z-50`} transition:animate="none">
+  <div class=" flex justify-between">
+    <div class="w-full lg:w-[90%] mx-auto lg:ml-auto">
+      <div
+        class="w-full grid lg:grid-cols-[200px,auto] grid-cols-[75%,25%] gap-0 lg:gap-4"
+      >
+        <picture class="w-full h-full aspect-auto">
+          <img
+            src={data.logos.primary}
+            alt={`logo ${data?.name}`}
+            loading="eager"
+            class="w-full h-full"
+            width="300"
+            height="200"
+          />
+        </picture>
+
+        {
+          onePages ? (
+            <div class="hidden md:flex flex-wrap gap-8 items-center justify-center px-5">
+              {data?.dataGeneral?.phones.slice(0, 3).map((phone) => (
+                <div class="flex items-center gap-2">
+                  <span class="bgGold text-white dark:text-black px-3.5 py-2.5 rounded-full">
+                    <i class="fa-solid fa-phone-volume" />
+                  </span>
+                  <div>
+                    <p class="text-white font-semibold">
+                      {phone.title.length > 0 ? phone.title : "Phone"}
+                    </p>
+                    <a
+                      href={`tel:${phone.number}`}
+                      class="text-primary font-bold text-lg transition-all duration-300 ease-in-out hover:text-tertiary"
+                      aria-label="Phone number"
+                    >
+                      <span>{phone.number}</span>
+                    </a>
+                  </div>
+                </div>
+              ))}
+              {data?.dataGeneral?.openingHours.slice(0, 3).map((hour) => (
+                <div class="flex items-center gap-2">
+                  <span class="bgGold text-white dark:text-black px-3.5 py-2.5 rounded-full">
+                    <i class="fa-regular fa-calendar-clock" />
+                  </span>
+                  <div>
+                    <p class="text-white font-semibold capitalize">
+                      {hour.days}
+                    </p>
+                    <p class="text-primary font-bold text-lg capitalize">
+                      {hour.hours}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div class="hidden md:flex items-center justify-center lg:justify-end border-r space-x-16  px-3 lg:px-10">
+                {data?.dataGeneral?.phones.slice(0, 3).map((phone) => (
+                  <div class="flex items-center gap-2 ">
+                    <span class="bgGold text-white dark:text-black px-4 py-3.5  rounded-full">
+                      <i class="fa-light fa-phone text-xl" />
+                    </span>
+                    <div>
+                      <p class="text-white font-semibold">
+                        {phone.title.length > 0 ? phone.title : "Phone"}
+                      </p>
+                      <a
+                        href={`tel:${phone.number}`}
+                        class="text-primary font-bold text-lg transition-all duration-300 ease-in-out hover:text-tertiary"
+                        aria-label="Phone number"
+                      >
+                        <span>{phone.number}</span>
+                      </a>
+                    </div>
+                  </div>
+                ))}
+                {data?.dataGeneral?.location.slice(0, 1).map((item) => (
+                  <div class="flex items-center gap-2">
+                    <span class="bgGold text-white dark:text-black px-3.5 py-3.5  rounded-full">
+                      <i class="fa-regular fa-map-location-dot text-xl" />
+                    </span>
+                    <div>
+                      <p class="text-white font-semibold">location</p>
+                      <p class="text-primary font-bold text-lg transition-all duration-300 ease-in-out hover:text-tertiary">
+                        {item.city}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+                {data?.dataGeneral?.openingHours.slice(0, 2).map((hour) => (
+                  <div class="flex items-center gap-2">
+                    <span class="bgGold text-white dark:text-black px-4 py-3.5  rounded-full">
+                      <i class="fa-regular fa-calendar text-xl" />
+                    </span>
+                    <div>
+                      <p class="text-white font-semibold capitalize">
+                        {hour.days}
+                      </p>
+                      <p class="text-primary font-bold text-lg capitalize">
+                        {hour.hours}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div class="flex justify-center items-center md:hidden bgGold">
+                <MenuHeader
+                  client:load
+                  textColors="text-white font-bold"
+                  data={data}
+                />
+              </div>
+            </>
+          )
+        }
+      </div>
+    </div>
+    <div
+      class={`w-auto md:w-[6%] ${onePages ? "flex border-l border-[#E4E9E3]" : "hidden lg:flex"} items-center px-5 -ml-10`}
+    >
+      <MenuModalForm client:only dataGlobal={data} />
+    </div>
+  </div>
+  <div class="w-full bg-secondary py-2 hidden md:flex justify-evenly items-center">
+    <div class="w-4/5">
+      <MenuHeader client:load textColors="text-white font-bold" data={data} />
+    </div>
+    <div class="md:flex items-center hidden">
+      <ButtonContent2 titleBtn="Get A Quote" linkBtn="/contact"/>
+    </div>
+  </div>
+</header>

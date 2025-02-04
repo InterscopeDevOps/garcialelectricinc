@@ -1,0 +1,62 @@
+---
+import type { ApiData, SectionsHomeAbout } from "../../interfaces/dbData";
+import TransparentHeader from "@/components/TransparentHeader/TransparentHeader";
+import Layout from "../../layouts/Layout.astro";
+import type { Blogs } from "@/interfaces/dbBlog";
+import ComponentBlogs from "@/components/blog/ComponentBlogs";
+
+let UrlApi = import.meta.env.API_URL;
+let KetApi = import.meta.env.API_KEY;
+let UrlAPiBlog = import.meta.env.API_URL_BLOG;
+
+// Realiza la llamada a la API
+const response = await fetch(`${UrlApi}/${KetApi}`);
+const data: ApiData = await response.json();
+
+// Realiza la llamada a la API Blog
+const responseBlog = await fetch(`${UrlAPiBlog}/${KetApi}`);
+const dataBlog: Blogs[] = await responseBlog.json();
+
+//filtrar para obtener la section de blocks
+const dataBlocks = data?.sectionsHomeAbout.filter(
+    (section: SectionsHomeAbout) => section.section === "blocks",
+);
+---
+
+<Layout
+    title={`${data.name} | Blogs`}
+    description={dataBlocks[7]?.text}
+    favicon={data.logos.primary}
+    featuredImage={data.logos.favicon}
+    keywords={data.services.map((service) => service.title).join(", ")}
+>
+    <TransparentHeader
+        bgImages={dataBlocks[7]?.additionalImages[0]}
+        title={dataBlocks[7]?.title || "Blogs"}
+        client:load
+    />
+    <div class="pt-10 pb-36 w-4/5 mx-auto">
+        <div class="mt-10 mb-20">
+            <h2 class="text-center text-5xl font-bold mb-5">Our Blogs</h2>
+            <div
+                class="border-b-2 border-[#EBECE9] mb-5 relative before:absolute before:w-1/3 before:mx-auto before:bg-btnHover before:h-1 before:left-0 before:right-0 before:top-0"
+            >
+            </div>
+        </div>
+        {
+            dataBlog && dataBlog.length > 0 ? (
+                <ComponentBlogs
+                    dataBlog={dataBlog}
+                    infoContact={data.dataGeneral}
+                    redesSociales={data.redesSociales}
+                    client:load
+                />
+            ) : (
+                <div class="text-center">
+                    <h2 class="text-5xl font-bold pb-5">No Blogs</h2>
+                    <p class="text-gray-500 text-3xl capitalize">No blogs available</p>
+                </div>
+            )
+        }
+    </div>
+</Layout>

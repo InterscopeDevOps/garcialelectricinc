@@ -1,0 +1,104 @@
+@import url("../css/button/styleButton.css");
+
+:root {
+  --primary: #00b4e8;
+  --secondary: #01566b;
+  --tertiary: #26d0f4;
+  --fourth: #4b4a4a;
+  --btn-color: #00b4e8;
+  --title: #1a1919;
+  --text: #141414;
+  --btn-hover-color: #0e98be;
+  --btn-border-color: #045a72;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Estilos para el scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+/* Handle del scrollbar */
+::-webkit-scrollbar-thumb {
+  background: var(--btn-hover-color); /* Color del handle */
+  border-radius: 6px; /* Bordes redondeados */
+}
+
+.scroolbarSubBlock::-webkit-scrollbar {
+  width: 6px; /* Ancho de la barra de desplazamiento */
+}
+
+.scroolbarSubBlock::-webkit-scrollbar-thumb {
+  background: var(--btn-hover-color); /* Nuevo color del handle */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+.scroolbarSubBlock::-webkit-scrollbar-track {
+  background: var(
+    --btn-color
+  ); /* Color de fondo de la barra de desplazamiento */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+/* ***************************************************************************************************************** */
+
+/* estilo de gallery masonry */
+
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  justify-content: center;
+  margin-left: -30px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 30px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div {
+  /* change div to reference your elements you put in <Masonry> */
+  background: grey;
+  margin-bottom: 20px;
+}
+
+/* ***************************************************************************************************************** */
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.bgGold {
+  background: radial-gradient(
+      ellipse farthest-corner at right bottom,
+      #fedb37 0%,
+      #fdb931 8%,
+      #9f7928 30%,
+      #8a6e2f 40%,
+      transparent 80%
+    ),
+    radial-gradient(
+      ellipse farthest-corner at left top,
+      #ffffff 0%,
+      #ffffac 8%,
+      #d1b464 25%,
+      #5d4a1f 62.5%,
+      #5d4a1f 100%
+    );
+}
